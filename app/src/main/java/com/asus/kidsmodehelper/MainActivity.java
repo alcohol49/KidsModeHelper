@@ -2,10 +2,9 @@ package com.asus.kidsmodehelper;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -13,13 +12,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try {
-            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            wifiManager.setWifiEnabled(true);
-        } catch (Exception e) {
-            Toast.makeText(this, "Enable Wifi fail", Toast.LENGTH_SHORT).show();
-        }
 
         try {
             startActivity(new Intent(Intent.ACTION_MAIN)
@@ -30,6 +22,12 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "You are not kid!", Toast.LENGTH_SHORT).show();
         }
 
-        finish();
+        setContentView(R.layout.activity_main);
+    }
+
+    public void onClick(View view) {
+        getPackageManager().clearPackagePreferredActivities(getPackageName());
+
+        startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
     }
 }
